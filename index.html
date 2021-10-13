@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/BMI.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@500&family=Noto+Sans+TC&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div class="LOGO">BMI</div>
+            <p>若 18.5 ≤ BMI &lt; 24 恭喜你！詳情請按下方計算器</p> <!-- &lt; 為 < 的代碼 -->
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            <div class="BOX">
+                <div class="TEXT">
+                    <h1>身體 B M I 計算器</h1>
+                    <p>世界衛生組織建議以身體質量指數 (Body Mass Index, BMI) 來衡量肥胖程度，其計算公式是以體重 (公斤) 除以身高 (公尺) 的平方。 B M I = 體重 ( 公斤 ) /
+                        身高<sup> 2 </sup>( 公尺<sup> 2 </sup>)</p><!-- <sup> 為 平方 的標籤 -->
+                </div>
+                <div class="row">
+                    <label>身高(公分)</label>
+                    <input type="text" id="height" placeholder=" 請輸入身高(公分)...">
+                    <label>體重(公斤)</label>
+                    <input type="text" id="weight" placeholder=" 請輸入體重(公斤)...">
+                    <button id="getResult">計算BMI</button>
+                    <button id="reset">全部清除</button>
+                </div>
+            </div>
+        </div>
+        <div class="Bar"></div>
+    </main>
+    <footer>
+        <div class="container">
+            <div class="row">
+                <h2 id="result"></h2>
+                <p id="directions"></p>
+            </div>
+        </div>
+    </footer>
+    <!-- ----------------JS------------------ -->
+    <script>
+        var button = document.querySelector('#getResult')
+        var reset = document.querySelector('#reset')
+        var result = document.querySelector('#result')
+        var text = document.querySelector('#directions')
+
+        var outputArea = document.querySelector('footer .container .row')
+
+        button.onclick = function () {
+            var h = parseFloat(document.getElementById('height').value)
+            var w = parseFloat(document.getElementById('weight').value)
+            outputArea.classList.add('show')
+
+            if (isNaN(parseInt(h)) || isNaN(parseInt(w))) {  //要先判斷h與W是否為空值、非數字
+                result.innerHTML = '請輸入數字'
+                text.innerHTML = '沒有看到上方提示嗎 ?'
+            } else if (h < 0 || w < 0) {    //負數
+                result.innerHTML = '請正確輸入正數'
+                text.innerHTML = '你是沒被打過捏 ！? ?我怎不知道你的身高體重還會呈負成長 ?'
+            } else if (h == 0 || w == 0) {    //0
+                result.innerHTML = '請正確輸入正數'
+                text.innerHTML = '你是沒被打過捏 ！? ?你是沒身高還是沒體重 ?'
+            }else {
+                var bmi = w / ((h / 100) * (h / 100))//計算式要放在例外判斷下面，不然很危險，可能會被亂改
+                bmi = bmi.toFixed(2); //取小數點後2位，且值會是字串
+                console.log(bmi)
+                if (bmi >= 35) {
+                    result.innerHTML = 'BMI值為' + bmi + '，重度肥胖'
+                    text.innerHTML = '地板好滑喔！油到滴汁，到處都是油！你一定是個死 D D 仔....'
+                } else if (bmi >= 30) {
+                    result.innerHTML = 'BMI值為' + bmi + '，中度肥胖'
+                    text.innerHTML = '好油喔 PEKO ！ ！ ！'
+                } else if (bmi >= 27) {
+                    result.innerHTML = 'BMI值為' + bmi + '，輕度肥胖'
+                    text.innerHTML = '我知道你一定有看過 Vtuber'
+                } else if (bmi >= 24) {
+                    result.innerHTML = 'BMI值為' + bmi + '，過重'
+                    text.innerHTML = '有些過重，但還可以在更瘦，下課後可以去跑跑步。'
+                } else if (bmi >= 18.5) {
+                    result.innerHTML = 'BMI值為' + bmi + '，健康'
+                    text.innerHTML = '恭喜恭喜，你是一位正常人，繼續保持努力，維持好身材。'
+                } else{
+                    result.innerHTML = 'BMI值為' + bmi + '，過瘦'
+                    text.innerHTML = '你這麼瘦，你阿嬤知道嗎???'
+                }
+            }
+            reset.onclick = function () {
+                outputArea.classList.remove('show')
+                height.value = ''
+                weight.value = ''
+                result.innerHTML = ''
+                text.innerHTML = ''
+            }
+
+
+        }
+    </script>
+</body>
+
+</html>
